@@ -1,0 +1,31 @@
+Bài 1 Hãy tìm tất cả những nam giới tuổi dưới 45
+select * FROM 
+(SELECT name, gender, TIMESTAMPDIFF (YEAR, birthdate, CURDATE()) as a
+FROM person ) as t
+where t.a < 45 
+and gender="Male"
+
+Bài 2. Hãy tìm tất cả những nữ giới làm nghề lái xe 'driver'
+SELECT name, gender, job FROM person
+WHERE gender = "Female"
+and job = "driver"
+
+Bài 3: Tính tỷ lệ nam/nữ lập trình viên trong tất cả tập dữ liệu
+SELECT t.job, (t.total/m.malecount) Ratio FROM
+(SELECT job, COUNT(*) as total
+FROM person
+WHERE gender = "Female"
+And job = "developer") as t
+JOIN
+(SELECT job, COUNT(*) AS malecount
+FROM person
+WHERE gender = "Male"
+AND job = "developer") as m on t.job  = m.job
+
+Bài 4: Hãy tìm 5 thành phố có số lượng nữ lớn nhất
+SELECT city, COUNT(*) AS female 
+FROM person 
+WHERE gender = "Female"
+GROUP BY city
+ORDER BY female DESC  
+LIMIT 5
